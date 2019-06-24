@@ -1,0 +1,17 @@
+management:
+  security:
+    enabled: true
+
+      
+spring:
+  mail:
+    host: smtp.gmail.com
+    username: tonriru1110@gmail.com
+    port: 587
+    password: hoctrolam
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
