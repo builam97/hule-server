@@ -5,7 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entities.Users;
 
-@Repository("userRepository")
-public interface UserRepository extends CrudRepository<Users, String>{
+@Repository
+public interface UserRepository extends CrudRepository<Users, Long>{
 	Users findByEmailIgnoreCase(String email);
+	
+	Users findByUserName(String userName);
+	
 }
