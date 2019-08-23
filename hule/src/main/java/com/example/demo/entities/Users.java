@@ -1,11 +1,21 @@
 package com.example.demo.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.BatchSize;
 
 
 @Entity
@@ -27,6 +37,11 @@ public class Users {
 	
 	@Column(name="enabled")
 	private int enabled;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name ="role_id", referencedColumnName = "id")})
+	@BatchSize(size = 20)
+	private Set<Role> roles = new HashSet<Role>();
 
 	public Long getId() {
 		return id;
@@ -67,6 +82,12 @@ public class Users {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
-	
-	
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
