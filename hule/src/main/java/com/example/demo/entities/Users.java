@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,10 +37,22 @@ public class Users {
 	@Column(name="enabled")
 	private int enabled;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = { @JoinColumn(name ="role_id", referencedColumnName = "id")})
-	@BatchSize(size = 20)
-	private Set<Role> roles = new HashSet<Role>();
+	@Column(name = "token_key")
+    private String tokenKey;
+	
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "role_id", referencedColumnName = "id") })
+    @BatchSize(size = 20)
+    private Set<Role> roles = new HashSet<Role>();
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_group", joinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "group_id", referencedColumnName = "id") })
+    @BatchSize(size = 20)
+    private Set<Group> group = new HashSet<Group>();
 
 	public Long getId() {
 		return id;
@@ -89,5 +100,21 @@ public class Users {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public void setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+    }
+
+    public Set<Group> getGroup() {
+        return group;
+    }
+
+    public void setGroup(Set<Group> group) {
+        this.group = group;
     }
 }

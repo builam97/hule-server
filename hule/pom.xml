@@ -81,6 +81,21 @@
 		    <artifactId>problem-spring-web</artifactId>
 		    <version>0.23.0</version>
 		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-websocket</artifactId>
+		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-messaging</artifactId>
+		</dependency>
+		        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		</dependency>
         
 	</dependencies>
 

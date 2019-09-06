@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.config.TokenProvider;
+import com.example.demo.entities.Users;
 import com.example.demo.request.LoginRequest;
 import com.example.demo.response.LoginResponse;
 import com.example.demo.security.CustomUserDetails;
+import com.example.demo.service.UserService;
+import com.example.demo.utils.SecurityUtil;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +30,9 @@ public class UserController {
 
     @Autowired
     private TokenProvider tokenProvider;
+    
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -45,12 +51,17 @@ public class UserController {
 
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+        Users user = ((CustomUserDetails) authentication.getPrincipal()).getUser();
+        user.setTokenKey(jwt);
+        userService.save(user);
         LoginResponse loginResponse = new LoginResponse(jwt);
         return ResponseEntity.ok(loginResponse);
     }
     
     @GetMapping("/hello")
     public ResponseEntity<String> getHello() {
+        String userName = SecurityUtil.getUserName().get();
+        System.out.println("User name: " + userName);
         return ResponseEntity.ok("Hello world");
     }
 }

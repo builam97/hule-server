@@ -18,9 +18,6 @@ import org.springframework.security.config.BeanIds;
 
 import com.example.demo.service.UserService;
 
-@Configuration
-@Import(SecurityProblemSupport.class)
-@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -59,7 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/login").permitAll() // Cho phép tất cả mọi người truy cập vào 2 địa chỉ này
+                .antMatchers("/api/login").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/greeting", "/app/**").permitAll()
                 .antMatchers("/api/hello").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 

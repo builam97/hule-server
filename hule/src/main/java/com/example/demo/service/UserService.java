@@ -33,5 +33,12 @@ public class UserService implements UserDetailsService {
         }
         return new CustomUserDetails(user.get());
     }
+    
+    public Users save(Users user) {
+       return userRepository.save(user);
+    }
 
+    public String getUserName(String token) {
+        return userRepository.findByToken(token);
+    }
 }
