@@ -27,16 +27,18 @@ public class WebSocketController {
 
     @MessageMapping("/message/{groupId}")
     @SendTo("/topic/reply/{groupId}")
-    public MessageResponse processMessageFromClient(@DestinationVariable Long groupId, @Payload String message) throws Exception {
+    public MessageResponse processMessageFromClient(@DestinationVariable String groupId, @Payload String message) throws Exception {
         System.out.println("group: .............................. " + groupId);
         String name = new Gson().fromJson(message, Map.class).get("name").toString();
-        String token = new Gson().fromJson(message, Map.class).get("token").toString();
-        System.out.println("token: " + token);
-        String userName = userService.getUserName(token);
+        String userName = new Gson().fromJson(message, Map.class).get("userName").toString();
         MessageResponse messageResponse = new MessageResponse(name, userName);
         return messageResponse;
     }
     
+    @MessageMapping("/public")
+    public void test() {
+        System.out.println("reply 11111111111111111111111111111111111111");
+    }
 //    @MessageExceptionHandler
 //    public String handleException(Throwable exception) {
 //        messagingTemplate.convertAndSend("/errors", exception.getMessage());

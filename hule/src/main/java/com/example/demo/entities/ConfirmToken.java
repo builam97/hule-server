@@ -15,7 +15,6 @@ import javax.persistence.Table;
 public class ConfirmToken {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
 	private Long id;
 	
 	@Column(name="confirm_token")
