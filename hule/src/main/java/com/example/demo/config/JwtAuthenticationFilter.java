@@ -53,13 +53,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         } catch (Exception ex) {
             log.error("failed on set user authentication", ex);
         }
-        HttpServletResponse res = (HttpServletResponse) response;
-        HttpServletRequest req = (HttpServletRequest) request;
-        res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
-        res.setHeader("Access-Control-Allow-Credentials", "true");
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        res.setHeader("Access-Control-Max-Age", "3600");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+//        HttpServletResponse res = (HttpServletResponse) response;
+//        HttpServletRequest req = (HttpServletRequest) request;
+//        res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+//        res.setHeader("Access-Control-Allow-Credentials", "true");
+//        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//        res.setHeader("Access-Control-Max-Age", "3600");
+//        res.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
         chain.doFilter(request, response);
         
     }

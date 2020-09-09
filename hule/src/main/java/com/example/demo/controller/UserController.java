@@ -1,23 +1,33 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.config.TokenProvider;
+import com.example.demo.entities.Group;
 import com.example.demo.entities.Users;
 import com.example.demo.request.LoginRequest;
+import com.example.demo.response.HuleResponse;
 import com.example.demo.response.LoginResponse;
+import com.example.demo.response.UserResponse;
 import com.example.demo.security.CustomUserDetails;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.SecurityUtil;
@@ -63,5 +73,21 @@ public class UserController {
         String userName = SecurityUtil.getUserName().get();
         System.out.println("User name: " + userName);
         return ResponseEntity.ok("Hello world");
+    }
+    
+    @GetMapping("/group-user")
+    public ResponseEntity<HuleResponse> selectGroupUser(@RequestParam("userId") Long userId) {
+        List<Group> groups = userService.selectGroupByUserId(userId);
+        HuleResponse response = new HuleResponse(0, groups);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/user-info")
+    public ResponseEntity<HuleResponse> getUserInformation() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Optional<Users> user = Optional.ofNullable(securityContext.getAuthentication())
+                .map(authen -> ((CustomUserDetails) authen.getPrincipal()).getUser());
+        HuleResponse response = new HuleResponse(0, new UserResponse(user.get()));
+        return ResponseEntity.ok(response);
     }
 }
