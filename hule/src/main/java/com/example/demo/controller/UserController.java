@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
+import com.example.demo.request.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -74,20 +75,27 @@ public class UserController {
         System.out.println("User name: " + userName);
         return ResponseEntity.ok("Hello world");
     }
-    
+
     @GetMapping("/group-user")
     public ResponseEntity<HuleResponse> selectGroupUser(@RequestParam("userId") Long userId) {
         List<Group> groups = userService.selectGroupByUserId(userId);
         HuleResponse response = new HuleResponse(0, groups);
         return ResponseEntity.ok(response);
     }
-    
+
     @GetMapping("/user-info")
     public ResponseEntity<HuleResponse> getUserInformation() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Optional<Users> user = Optional.ofNullable(securityContext.getAuthentication())
                 .map(authen -> ((CustomUserDetails) authen.getPrincipal()).getUser());
         HuleResponse response = new HuleResponse(0, new UserResponse(user.get()));
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<HuleResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
+        Users users = userService.registerNewUserAccount(registerRequest);
+        HuleResponse response = new HuleResponse(0, new UserResponse(users));
         return ResponseEntity.ok(response);
     }
 }

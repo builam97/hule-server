@@ -16,7 +16,6 @@ import javax.persistence.Table;
 public class UserGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

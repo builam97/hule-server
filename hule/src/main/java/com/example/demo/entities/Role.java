@@ -12,7 +12,6 @@ import javax.persistence.Table;
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="id")
 	private Long id;
 	
 	@Column(name="role_name")
@@ -38,4 +37,9 @@ public class Role {
     public String toString() {
         return "Role [id=" + id + ", roleName=" + roleName + "]";
     }
+
+	public Role(Long id, String roleName) {
+		this.id = id;
+		this.roleName = roleName;
+	}
 }

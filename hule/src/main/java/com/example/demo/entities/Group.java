@@ -13,7 +13,6 @@ import javax.persistence.Table;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
     private Long id;
     
     @Column(name = "name_group")
